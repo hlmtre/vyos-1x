@@ -27,6 +27,9 @@ from vyos.validate import is_member
 from vyos.config import Config
 from vyos import ConfigError
 
+from vyos import airbag
+airbag.enable()
+
 default_config_data = {
     **interface_default_data,
     'deleted': False,
@@ -169,6 +172,10 @@ def verify(eth):
             raise ConfigError((
                     f'Interface "{eth["intf"]}" cannot be member of VRF "{eth["vrf"]}" '
                     f'and "{memberof}" at the same time!'))
+
+    if eth['mac'] and eth['is_bond_member']:
+        print('WARNING: "mac {0}" command will be ignored because {1} is a part of {2}'\
+            .format(eth['mac'], eth['intf'], eth['is_bond_member']))
 
     # use common function to verify VLAN configuration
     verify_vlan_config(eth)

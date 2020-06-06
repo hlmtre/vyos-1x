@@ -28,6 +28,9 @@ from vyos.util import call, cmd
 from vyos.validate import is_member, has_address_configured
 from vyos import ConfigError
 
+from vyos import airbag
+airbag.enable()
+
 default_config_data = {
     **interface_default_data,
     'arp_mon_intvl': 0,
@@ -125,16 +128,15 @@ def get_config():
         bond['mode'] = get_bond_mode(act_mode)
 
     # determine bond member interfaces (currently configured)
-    if conf.exists('member interface'):
-        bond['member'] = conf.return_values('member interface')
+    bond['member'] = conf.return_values('member interface')
 
-        # We can not call conf.return_effective_values() as it would not work
-        # on reboots. Reboots/First boot will return that running config and
-        # saved config is the same, thus on a reboot the bond members will
-        # not be added all (https://phabricator.vyos.net/T2030)
-        live_members = BondIf(bond['intf']).get_slaves()
-        if not (bond['member'] == live_members):
-            bond['shutdown_required'] = True
+    # We can not call conf.return_effective_values() as it would not work
+    # on reboots. Reboots/First boot will return that running config and
+    # saved config is the same, thus on a reboot the bond members will
+    # not be added all (https://phabricator.vyos.net/T2030)
+    live_members = BondIf(bond['intf']).get_slaves()
+    if not (bond['member'] == live_members):
+        bond['shutdown_required'] = True
 
     # Primary device interface
     if conf.exists('primary'):

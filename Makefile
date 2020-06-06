@@ -72,7 +72,9 @@ interface_definitions: $(BUILD_DIR) $(obj)
 	rm -f $(TMPL_DIR)/interfaces/wireless/node.tag/vif/node.tag/ipv6/node.def
 	rm -f $(TMPL_DIR)/interfaces/wirelessmodem/node.tag/ipv6/node.def
 	rm -f $(TMPL_DIR)/protocols/node.def
-	mv    $(TMPL_DIR)/protocols/nbgp $(TMPL_DIR)/protocols/.nbgp
+	rm -f $(TMPL_DIR)/protocols/nbgp
+	rm -f $(TMPL_DIR)/protocols/nrip
+	rm -f $(TMPL_DIR)/protocols/isis
 	rm -f $(TMPL_DIR)/protocols/static/node.def
 	rm -f $(TMPL_DIR)/system/node.def
 	rm -f $(TMPL_DIR)/vpn/node.def
@@ -96,11 +98,10 @@ op_mode_definitions:
 	rm -f $(OP_TMPL_DIR)/restart/node.def
 	rm -f $(OP_TMPL_DIR)/monitor/node.def
 	rm -f $(OP_TMPL_DIR)/generate/node.def
-	rm -f $(OP_TMPL_DIR)/show/vpn/node.def
 	rm -f $(OP_TMPL_DIR)/show/system/node.def
+	rm -f $(OP_TMPL_DIR)/show/vpn/node.def
 	rm -f $(OP_TMPL_DIR)/delete/node.def
 	rm -f $(OP_TMPL_DIR)/reset/vpn/node.def
-	rm -f $(OP_TMPL_DIR)/show/system/node.def
 
 .PHONY: component_versions
 .ONESHELL:

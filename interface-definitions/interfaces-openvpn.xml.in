@@ -323,7 +323,7 @@
               </completionHelp>
               <valueHelp>
                 <format>udp</format>
-                <description>Site-to-site mode</description>
+                <description>UDP</description>
               </valueHelp>
               <valueHelp>
                 <format>tcp-passive</format>
@@ -800,6 +800,7 @@
               <valueless/>
             </properties>
           </leafNode>
+          #include <include/interface-vrf.xml.i>
         </children>
       </tagNode>
     </children>
